@@ -1,2 +1,2 @@
 // API key
-const API_KEY = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+const API_KEY = "pk.eyJ1IjoiZWFidWVsIiwiYSI6ImNrczNwYzg4aDBwaW0ybm10M3BvcnJ6aWUifQ.xm9y0kLHkVk9TPGASAAQ7A";

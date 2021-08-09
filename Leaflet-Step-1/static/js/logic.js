@@ -21,17 +21,17 @@ var streetmap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 
 
 //  Store url in var
-var url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson';
+var url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson';
 
 
-d3.json(url, function(data) {
-    function styleInfo(feature) {
+d3.json(url).then(function(data) {
+    function styleInfo(features) {
         return {
             opacity: 1,
             fillOpacity: 1,
-            fillColor: getColor(feature.properties.mag),
+            fillColor: getColor(features.properties.mag),
             color: '#000000',
-            radius: getRadius(feature.properties.mag),
+            radius: getRadius(features.properties.mag),
             stroke: true,
             weight: 0.5
         };
@@ -62,14 +62,14 @@ d3.json(url, function(data) {
     // GeoJSON layer
     L.geoJson(data, {
         // Maken cricles
-        pointToLayer: function(feature, latlng) {
+        pointToLayer: function(features, latlng) {
           return L.circleMarker(latlng);
         },
         // cirecle style
         style: styleInfo,
         // popup for each marker
-        onEachFeature: function(feature, layer) {
-          layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
+        onEachFeature: function(features, layer) {
+          layer.bindPopup("Magnitude: " + features.properties.mag + "<br>Location: " + features.properties.place);
         }
       }).addTo(myMap);
 
@@ -80,7 +80,7 @@ d3.json(url, function(data) {
     // details for the legend
     legend.onAdd = function() {
         var div = L.DomUtil.create("div", "info legend");
-
+        
         var grades = [0, 1, 2, 3, 4, 5];
         var colors = [
           "#98ee00",
@@ -101,7 +101,7 @@ d3.json(url, function(data) {
     };
 
     legend.addTo(myMap);
-})
+});
 
 //   function createMap(bikeStations) {
 
